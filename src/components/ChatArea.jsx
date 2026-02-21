@@ -37,16 +37,14 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
 
             console.log("Attempting API call with key starting with:", apiKey ? apiKey.substring(0, 10) + "..." : "MISSING");
 
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            const response = await fetch("https://api-inference.huggingface.co/v1/chat/completions", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${apiKey}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": window.location.origin,
-                    "X-Title": "AIGPT"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    model: "deepseek/deepseek-chat",
+                    model: "meta-llama/Llama-3-8b-instruct",
                     messages: apiMessages,
                     stream: true
                 })
@@ -111,7 +109,7 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
         <main className="chat-area">
             <div className="chat-header">
                 <div className="model-selector">
-                    <span>AIGPT (DeepSeek)</span>
+                    <span>AIGPT (Llama 3)</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M6 9l6 6 6-6" />
                     </svg>

@@ -21,7 +21,7 @@ function App() {
   const [theme, setTheme] = useState('dark'); // Theme State
   const [fileAccept, setFileAccept] = useState('*');
   const [apiKey, setApiKey] = useState(() => {
-    return localStorage.getItem('deepseek_api_key') || import.meta.env.VITE_DEEPSEEK_API_KEY || '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';
+    return localStorage.getItem('deepseek_api_key') || import.meta.env.VITE_DEEPSEEK_API_KEY || '';
   });
   const fileInputRef = useRef(null);
 
