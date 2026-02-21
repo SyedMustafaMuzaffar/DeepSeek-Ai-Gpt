@@ -37,7 +37,7 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
 
             console.log("Attempting API call with key starting with:", apiKey ? apiKey.substring(0, 10) + "..." : "MISSING");
 
-            const response = await fetch("https://api-inference.huggingface.co/v1/chat/completions", {
+            const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${apiKey}`,
@@ -90,8 +90,16 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
             }
         } catch (error) {
             console.error("Error calling API:", error);
-            const status = error.message.includes("API error") ? error.message.split(": ")[1] : "Unknown";
-            const errorMessage = `Sorry, I encountered an error (Status: ${status}). Please check your API key credits and network.`;
+            let errorMessage = "Sorry, I encountered an error. Please check your API key credits and network.";
+
+            if (error.message.includes("API error")) {
+                const status = error.message.split(": ")[1];
+                errorMessage = `Sorry, I encountered an API error (Status: ${status}). Please check your credits.`;
+            } else if (error.name === 'TypeError') {
+                errorMessage = "Network error or CORS issue detected. Please ensure you have a stable connection.";
+            } else {
+                errorMessage = `An unexpected error occurred: ${error.message}`;
+            }
 
             setMessages(prev =>
                 prev.map(msg =>

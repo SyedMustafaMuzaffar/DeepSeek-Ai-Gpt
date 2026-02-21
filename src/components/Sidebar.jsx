@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ chats, currentChatId, onNewChat, onSelectChat, onOpenModal, user }) => {
+const Sidebar = ({ chats, currentChatId, onNewChat, onSelectChat, onOpenModal }) => {
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
@@ -42,10 +42,6 @@ const Sidebar = ({ chats, currentChatId, onNewChat, onSelectChat, onOpenModal, u
                 <button className="footer-link" onClick={() => onOpenModal('upgrade')}>
                     <span className="icon">✨</span>
                     <span>Upgrade Plan</span>
-                </button>
-                <button className="footer-link" onClick={() => onOpenModal('profile')}>
-                    <div className="avatar">{user?.name?.charAt(0) || 'U'}</div>
-                    <span className="username">{user?.name || 'User Name'}</span>
                 </button>
                 <button className="footer-link" onClick={() => onOpenModal('settings')}>
                     <span className="icon">⚙️</span>

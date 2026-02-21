@@ -3,14 +3,12 @@ import './App.css'
 import Sidebar from './components/Sidebar'
 import ChatArea from './components/ChatArea'
 import Modal from './components/Modal'
-import Login from './components/Login'
 
 function App() {
   const [chats, setChats] = useState([{ id: Date.now(), title: 'New Chat', messages: [] }]);
   const [currentChatId, setCurrentChatId] = useState(chats[0].id);
   const [isLoading, setIsLoading] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
-  const [user, setUser] = useState(null); // Auth State
   const [speechSettings, setSpeechSettings] = useState({
     voiceURI: '', // Use voiceURI for reliable selection
     rate: 1.0,
@@ -132,15 +130,6 @@ function App() {
     window.speechSynthesis.speak(utterance);
   };
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    window.speechSynthesis.cancel();
-    setActiveModal(null);
-  };
 
   const triggerFilePicker = (type) => {
     if (type === 'image') {
@@ -248,23 +237,6 @@ function App() {
                 />
                 <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>Enter your OpenRouter API key. Changes are saved automatically.</p>
               </div>
-            </div>
-          )
-        };
-      case 'profile':
-        return {
-          title: 'User Profile',
-          content: (
-            <div className="profile-modal">
-              <div className="profile-header">
-                <div className="profile-avatar large">U</div>
-                <div className="profile-info">
-                  <h3>User Name</h3>
-                  <p>user@example.com</p>
-                </div>
-              </div>
-              <button className="secondary-btn">Edit Profile</button>
-              <button className="danger-btn" onClick={handleLogout}>Log Out</button>
             </div>
           )
         };
@@ -396,10 +368,6 @@ function App() {
   const modalData = getModalContent();
 
 
-  if (!user) {
-    return <Login onLogin={handleLogin} />;
-  }
-
   return (
     <div className="app-container">
       <Sidebar
@@ -408,7 +376,6 @@ function App() {
         onNewChat={handleNewChat}
         onSelectChat={handleSelectChat}
         onOpenModal={openModal}
-        user={user}
       />
       <ChatArea
         messages={currentChat.messages}
