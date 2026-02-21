@@ -1,0 +1,136 @@
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0.8rem;
+    background-color: var(--sidebar-bg);
+    border-right: none;
+    color: var(--text-primary);
+}
+
+.sidebar-header {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.sidebar-icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sidebar-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.new-chat-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-start;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.new-chat-btn:hover {
+    background: var(--sidebar-hover);
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.nav-group small {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    padding-left: 0.75rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-item:hover {
+    background: var(--sidebar-hover);
+}
+
+.nav-item .icon {
+    color: var(--text-secondary);
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.footer-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    /* sidebar-hover */
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    background: #5436DA;
+    /* Generic user color */
+    color: white;
+    border-radius: 2px;
+    /* ChatGPT square-ish avatars */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    flex-shrink: 0;
+}
