@@ -2,9 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import InputBox from './InputBox';
 import './ChatArea.css';
 
-const API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || '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';
-
-const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isSpeechEnabled, onOpenModal }) => {
+const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isSpeechEnabled, onOpenModal, apiKey }) => {
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -37,16 +35,20 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
                 content: msg.content
             }));
 
+            console.log("Attempting API call with key starting with:", apiKey ? apiKey.substring(0, 10) + "..." : "MISSING");
+
             const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${API_KEY}`,
-                    "Content-Type": "application/json"
+                    "Authorization": `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": window.location.origin,
+                    "X-Title": "AIGPT"
                 },
                 body: JSON.stringify({
                     model: "deepseek/deepseek-chat",
                     messages: apiMessages,
-                    stream: true // Enable streaming
+                    stream: true
                 })
             });
 
@@ -90,10 +92,13 @@ const ChatArea = ({ messages, setMessages, isLoading, setIsLoading, onSpeak, isS
             }
         } catch (error) {
             console.error("Error calling API:", error);
+            const status = error.message.includes("API error") ? error.message.split(": ")[1] : "Unknown";
+            const errorMessage = `Sorry, I encountered an error (Status: ${status}). Please check your API key credits and network.`;
+
             setMessages(prev =>
                 prev.map(msg =>
                     msg.id === aiMessageId
-                        ? { ...msg, content: "Sorry, I encountered an error completing your request. Please check your network connection and API key." }
+                        ? { ...msg, content: errorMessage }
                         : msg
                 )
             );

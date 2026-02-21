@@ -20,6 +20,9 @@ function App() {
   const [availableVoices, setAvailableVoices] = useState([]);
   const [theme, setTheme] = useState('dark'); // Theme State
   const [fileAccept, setFileAccept] = useState('*');
+  const [apiKey, setApiKey] = useState(() => {
+    return localStorage.getItem('deepseek_api_key') || import.meta.env.VITE_DEEPSEEK_API_KEY || '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';
+  });
   const fileInputRef = useRef(null);
 
   const currentChat = chats.find(c => c.id === currentChatId) || chats[0];
@@ -67,6 +70,10 @@ function App() {
       return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('deepseek_api_key', apiKey);
+  }, [apiKey]);
 
   // Custom setMessages that updates the active chat's messages
   const setMessages = (newMessagesOrCallback) => {
@@ -228,6 +235,18 @@ function App() {
               <div className="setting-item">
                 <label>Data Sharing</label>
                 <input type="checkbox" defaultChecked />
+              </div>
+              <div className="setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                <label>DeepSeek API Key</label>
+                <input
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="sk-or-v1-..."
+                  className="settings-input"
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
+                />
+                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>Enter your OpenRouter API key. Changes are saved automatically.</p>
               </div>
             </div>
           )
@@ -399,6 +418,7 @@ function App() {
         onSpeak={handleSpeak}
         isSpeechEnabled={speechSettings.isEnabled}
         onOpenModal={openModal}
+        apiKey={apiKey}
       />
       {activeModal && (
         <Modal
